@@ -1,0 +1,1322 @@
+[
+  {
+    "id": 1,
+    "name": "Candidate 1",
+    "type": "Candidate",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 1",
+      "Legislative District 6"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Candidate 2",
+    "type": "Candidate",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 2",
+      "Legislative District 7"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Initiative 3",
+    "type": "Initiative",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 3",
+      "Legislative District 8"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Candidate 4",
+    "type": "Candidate",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 4",
+      "Legislative District 9"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Candidate 5",
+    "type": "Candidate",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 10",
+      "Legislative District 5"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Initiative 6",
+    "type": "Initiative",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 11",
+      "Legislative District 6"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Candidate 7",
+    "type": "Candidate",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 12",
+      "Legislative District 7"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Candidate 8",
+    "type": "Candidate",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 13",
+      "Legislative District 8"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Initiative 9",
+    "type": "Initiative",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 14",
+      "Legislative District 9"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Candidate 10",
+    "type": "Candidate",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 10",
+      "Legislative District 15"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Candidate 11",
+    "type": "Candidate",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 11",
+      "Legislative District 16"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Initiative 12",
+    "type": "Initiative",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 12",
+      "Legislative District 17"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Candidate 13",
+    "type": "Candidate",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 13",
+      "Legislative District 18"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Candidate 14",
+    "type": "Candidate",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 14",
+      "Legislative District 19"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Initiative 15",
+    "type": "Initiative",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 15",
+      "Legislative District 20"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Candidate 16",
+    "type": "Candidate",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 16",
+      "Legislative District 21"
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Candidate 17",
+    "type": "Candidate",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 17",
+      "Legislative District 22"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Initiative 18",
+    "type": "Initiative",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 18",
+      "Legislative District 23"
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Candidate 19",
+    "type": "Candidate",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 19",
+      "Legislative District 24"
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Candidate 20",
+    "type": "Candidate",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 20",
+      "Legislative District 25"
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Initiative 21",
+    "type": "Initiative",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 21",
+      "Legislative District 26"
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Candidate 22",
+    "type": "Candidate",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 22",
+      "Legislative District 27"
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Candidate 23",
+    "type": "Candidate",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 23",
+      "Legislative District 28"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Initiative 24",
+    "type": "Initiative",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 24",
+      "Legislative District 29"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Candidate 25",
+    "type": "Candidate",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 25",
+      "Legislative District 30"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Candidate 26",
+    "type": "Candidate",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 1",
+      "Legislative District 26"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Initiative 27",
+    "type": "Initiative",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 2",
+      "Legislative District 27"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Candidate 28",
+    "type": "Candidate",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 28",
+      "Legislative District 3"
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Candidate 29",
+    "type": "Candidate",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 29",
+      "Legislative District 4"
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Initiative 30",
+    "type": "Initiative",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 30",
+      "Legislative District 5"
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Candidate 31",
+    "type": "Candidate",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 1",
+      "Legislative District 6"
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Candidate 32",
+    "type": "Candidate",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 2",
+      "Legislative District 7"
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Initiative 33",
+    "type": "Initiative",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 3",
+      "Legislative District 8"
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Candidate 34",
+    "type": "Candidate",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 4",
+      "Legislative District 9"
+    ]
+  },
+  {
+    "id": 35,
+    "name": "Candidate 35",
+    "type": "Candidate",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 10",
+      "Legislative District 5"
+    ]
+  },
+  {
+    "id": 36,
+    "name": "Initiative 36",
+    "type": "Initiative",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 11",
+      "Legislative District 6"
+    ]
+  },
+  {
+    "id": 37,
+    "name": "Candidate 37",
+    "type": "Candidate",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 12",
+      "Legislative District 7"
+    ]
+  },
+  {
+    "id": 38,
+    "name": "Candidate 38",
+    "type": "Candidate",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 13",
+      "Legislative District 8"
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Initiative 39",
+    "type": "Initiative",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 14",
+      "Legislative District 9"
+    ]
+  },
+  {
+    "id": 40,
+    "name": "Candidate 40",
+    "type": "Candidate",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 10",
+      "Legislative District 15"
+    ]
+  },
+  {
+    "id": 41,
+    "name": "Candidate 41",
+    "type": "Candidate",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 11",
+      "Legislative District 16"
+    ]
+  },
+  {
+    "id": 42,
+    "name": "Initiative 42",
+    "type": "Initiative",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 12",
+      "Legislative District 17"
+    ]
+  },
+  {
+    "id": 43,
+    "name": "Candidate 43",
+    "type": "Candidate",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 13",
+      "Legislative District 18"
+    ]
+  },
+  {
+    "id": 44,
+    "name": "Candidate 44",
+    "type": "Candidate",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 14",
+      "Legislative District 19"
+    ]
+  },
+  {
+    "id": 45,
+    "name": "Initiative 45",
+    "type": "Initiative",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 15",
+      "Legislative District 20"
+    ]
+  },
+  {
+    "id": 46,
+    "name": "Candidate 46",
+    "type": "Candidate",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 16",
+      "Legislative District 21"
+    ]
+  },
+  {
+    "id": 47,
+    "name": "Candidate 47",
+    "type": "Candidate",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 17",
+      "Legislative District 22"
+    ]
+  },
+  {
+    "id": 48,
+    "name": "Initiative 48",
+    "type": "Initiative",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 18",
+      "Legislative District 23"
+    ]
+  },
+  {
+    "id": 49,
+    "name": "Candidate 49",
+    "type": "Candidate",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 19",
+      "Legislative District 24"
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Candidate 50",
+    "type": "Candidate",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 20",
+      "Legislative District 25"
+    ]
+  },
+  {
+    "id": 51,
+    "name": "Initiative 51",
+    "type": "Initiative",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 21",
+      "Legislative District 26"
+    ]
+  },
+  {
+    "id": 52,
+    "name": "Candidate 52",
+    "type": "Candidate",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 22",
+      "Legislative District 27"
+    ]
+  },
+  {
+    "id": 53,
+    "name": "Candidate 53",
+    "type": "Candidate",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 23",
+      "Legislative District 28"
+    ]
+  },
+  {
+    "id": 54,
+    "name": "Initiative 54",
+    "type": "Initiative",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 24",
+      "Legislative District 29"
+    ]
+  },
+  {
+    "id": 55,
+    "name": "Candidate 55",
+    "type": "Candidate",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 25",
+      "Legislative District 30"
+    ]
+  },
+  {
+    "id": 56,
+    "name": "Candidate 56",
+    "type": "Candidate",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 1",
+      "Legislative District 26"
+    ]
+  },
+  {
+    "id": 57,
+    "name": "Initiative 57",
+    "type": "Initiative",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 2",
+      "Legislative District 27"
+    ]
+  },
+  {
+    "id": 58,
+    "name": "Candidate 58",
+    "type": "Candidate",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 28",
+      "Legislative District 3"
+    ]
+  },
+  {
+    "id": 59,
+    "name": "Candidate 59",
+    "type": "Candidate",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 29",
+      "Legislative District 4"
+    ]
+  },
+  {
+    "id": 60,
+    "name": "Initiative 60",
+    "type": "Initiative",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 30",
+      "Legislative District 5"
+    ]
+  },
+  {
+    "id": 61,
+    "name": "Candidate 61",
+    "type": "Candidate",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 1",
+      "Legislative District 6"
+    ]
+  },
+  {
+    "id": 62,
+    "name": "Candidate 62",
+    "type": "Candidate",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 2",
+      "Legislative District 7"
+    ]
+  },
+  {
+    "id": 63,
+    "name": "Initiative 63",
+    "type": "Initiative",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 3",
+      "Legislative District 8"
+    ]
+  },
+  {
+    "id": 64,
+    "name": "Candidate 64",
+    "type": "Candidate",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 4",
+      "Legislative District 9"
+    ]
+  },
+  {
+    "id": 65,
+    "name": "Candidate 65",
+    "type": "Candidate",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 10",
+      "Legislative District 5"
+    ]
+  },
+  {
+    "id": 66,
+    "name": "Initiative 66",
+    "type": "Initiative",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 11",
+      "Legislative District 6"
+    ]
+  },
+  {
+    "id": 67,
+    "name": "Candidate 67",
+    "type": "Candidate",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 12",
+      "Legislative District 7"
+    ]
+  },
+  {
+    "id": 68,
+    "name": "Candidate 68",
+    "type": "Candidate",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 13",
+      "Legislative District 8"
+    ]
+  },
+  {
+    "id": 69,
+    "name": "Initiative 69",
+    "type": "Initiative",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 14",
+      "Legislative District 9"
+    ]
+  },
+  {
+    "id": 70,
+    "name": "Candidate 70",
+    "type": "Candidate",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 10",
+      "Legislative District 15"
+    ]
+  },
+  {
+    "id": 71,
+    "name": "Candidate 71",
+    "type": "Candidate",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 11",
+      "Legislative District 16"
+    ]
+  },
+  {
+    "id": 72,
+    "name": "Initiative 72",
+    "type": "Initiative",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 12",
+      "Legislative District 17"
+    ]
+  },
+  {
+    "id": 73,
+    "name": "Candidate 73",
+    "type": "Candidate",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 13",
+      "Legislative District 18"
+    ]
+  },
+  {
+    "id": 74,
+    "name": "Candidate 74",
+    "type": "Candidate",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 14",
+      "Legislative District 19"
+    ]
+  },
+  {
+    "id": 75,
+    "name": "Initiative 75",
+    "type": "Initiative",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 15",
+      "Legislative District 20"
+    ]
+  },
+  {
+    "id": 76,
+    "name": "Candidate 76",
+    "type": "Candidate",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 16",
+      "Legislative District 21"
+    ]
+  },
+  {
+    "id": 77,
+    "name": "Candidate 77",
+    "type": "Candidate",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 17",
+      "Legislative District 22"
+    ]
+  },
+  {
+    "id": 78,
+    "name": "Initiative 78",
+    "type": "Initiative",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 18",
+      "Legislative District 23"
+    ]
+  },
+  {
+    "id": 79,
+    "name": "Candidate 79",
+    "type": "Candidate",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 19",
+      "Legislative District 24"
+    ]
+  },
+  {
+    "id": 80,
+    "name": "Candidate 80",
+    "type": "Candidate",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 20",
+      "Legislative District 25"
+    ]
+  },
+  {
+    "id": 81,
+    "name": "Initiative 81",
+    "type": "Initiative",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 21",
+      "Legislative District 26"
+    ]
+  },
+  {
+    "id": 82,
+    "name": "Candidate 82",
+    "type": "Candidate",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 22",
+      "Legislative District 27"
+    ]
+  },
+  {
+    "id": 83,
+    "name": "Candidate 83",
+    "type": "Candidate",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 23",
+      "Legislative District 28"
+    ]
+  },
+  {
+    "id": 84,
+    "name": "Initiative 84",
+    "type": "Initiative",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 24",
+      "Legislative District 29"
+    ]
+  },
+  {
+    "id": 85,
+    "name": "Candidate 85",
+    "type": "Candidate",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 25",
+      "Legislative District 30"
+    ]
+  },
+  {
+    "id": 86,
+    "name": "Candidate 86",
+    "type": "Candidate",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 1",
+      "Legislative District 26"
+    ]
+  },
+  {
+    "id": 87,
+    "name": "Initiative 87",
+    "type": "Initiative",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 2",
+      "Legislative District 27"
+    ]
+  },
+  {
+    "id": 88,
+    "name": "Candidate 88",
+    "type": "Candidate",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 28",
+      "Legislative District 3"
+    ]
+  },
+  {
+    "id": 89,
+    "name": "Candidate 89",
+    "type": "Candidate",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 29",
+      "Legislative District 4"
+    ]
+  },
+  {
+    "id": 90,
+    "name": "Initiative 90",
+    "type": "Initiative",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 30",
+      "Legislative District 5"
+    ]
+  },
+  {
+    "id": 91,
+    "name": "Candidate 91",
+    "type": "Candidate",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 1",
+      "Legislative District 6"
+    ]
+  },
+  {
+    "id": 92,
+    "name": "Candidate 92",
+    "type": "Candidate",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 2",
+      "Legislative District 7"
+    ]
+  },
+  {
+    "id": 93,
+    "name": "Initiative 93",
+    "type": "Initiative",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 3",
+      "Legislative District 8"
+    ]
+  },
+  {
+    "id": 94,
+    "name": "Candidate 94",
+    "type": "Candidate",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 4",
+      "Legislative District 9"
+    ]
+  },
+  {
+    "id": 95,
+    "name": "Candidate 95",
+    "type": "Candidate",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 10",
+      "Legislative District 5"
+    ]
+  },
+  {
+    "id": 96,
+    "name": "Initiative 96",
+    "type": "Initiative",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 11",
+      "Legislative District 6"
+    ]
+  },
+  {
+    "id": 97,
+    "name": "Candidate 97",
+    "type": "Candidate",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 12",
+      "Legislative District 7"
+    ]
+  },
+  {
+    "id": 98,
+    "name": "Candidate 98",
+    "type": "Candidate",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 13",
+      "Legislative District 8"
+    ]
+  },
+  {
+    "id": 99,
+    "name": "Initiative 99",
+    "type": "Initiative",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 14",
+      "Legislative District 9"
+    ]
+  },
+  {
+    "id": 100,
+    "name": "Candidate 100",
+    "type": "Candidate",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 10",
+      "Legislative District 15"
+    ]
+  },
+  {
+    "id": 101,
+    "name": "Candidate 101",
+    "type": "Candidate",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 11",
+      "Legislative District 16"
+    ]
+  },
+  {
+    "id": 102,
+    "name": "Initiative 102",
+    "type": "Initiative",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 12",
+      "Legislative District 17"
+    ]
+  },
+  {
+    "id": 103,
+    "name": "Candidate 103",
+    "type": "Candidate",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 13",
+      "Legislative District 18"
+    ]
+  },
+  {
+    "id": 104,
+    "name": "Candidate 104",
+    "type": "Candidate",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 14",
+      "Legislative District 19"
+    ]
+  },
+  {
+    "id": 105,
+    "name": "Initiative 105",
+    "type": "Initiative",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 15",
+      "Legislative District 20"
+    ]
+  },
+  {
+    "id": 106,
+    "name": "Candidate 106",
+    "type": "Candidate",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 16",
+      "Legislative District 21"
+    ]
+  },
+  {
+    "id": 107,
+    "name": "Candidate 107",
+    "type": "Candidate",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 17",
+      "Legislative District 22"
+    ]
+  },
+  {
+    "id": 108,
+    "name": "Initiative 108",
+    "type": "Initiative",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 18",
+      "Legislative District 23"
+    ]
+  },
+  {
+    "id": 109,
+    "name": "Candidate 109",
+    "type": "Candidate",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 19",
+      "Legislative District 24"
+    ]
+  },
+  {
+    "id": 110,
+    "name": "Candidate 110",
+    "type": "Candidate",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 20",
+      "Legislative District 25"
+    ]
+  },
+  {
+    "id": 111,
+    "name": "Initiative 111",
+    "type": "Initiative",
+    "issue": "Transportation",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for transportation voters in Arizona.",
+    "districts": [
+      "Legislative District 21",
+      "Legislative District 26"
+    ]
+  },
+  {
+    "id": 112,
+    "name": "Candidate 112",
+    "type": "Candidate",
+    "issue": "Schools",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for schools voters in Arizona.",
+    "districts": [
+      "Legislative District 22",
+      "Legislative District 27"
+    ]
+  },
+  {
+    "id": 113,
+    "name": "Candidate 113",
+    "type": "Candidate",
+    "issue": "Parks",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for parks voters in Arizona.",
+    "districts": [
+      "Legislative District 23",
+      "Legislative District 28"
+    ]
+  },
+  {
+    "id": 114,
+    "name": "Initiative 114",
+    "type": "Initiative",
+    "issue": "Technology",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for technology voters in Arizona.",
+    "districts": [
+      "Legislative District 24",
+      "Legislative District 29"
+    ]
+  },
+  {
+    "id": 115,
+    "name": "Candidate 115",
+    "type": "Candidate",
+    "issue": "Healthcare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for healthcare voters in Arizona.",
+    "districts": [
+      "Legislative District 25",
+      "Legislative District 30"
+    ]
+  },
+  {
+    "id": 116,
+    "name": "Candidate 116",
+    "type": "Candidate",
+    "issue": "Housing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for housing voters in Arizona.",
+    "districts": [
+      "Legislative District 1",
+      "Legislative District 26"
+    ]
+  },
+  {
+    "id": 117,
+    "name": "Initiative 117",
+    "type": "Initiative",
+    "issue": "Environment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for environment voters in Arizona.",
+    "districts": [
+      "Legislative District 2",
+      "Legislative District 27"
+    ]
+  },
+  {
+    "id": 118,
+    "name": "Candidate 118",
+    "type": "Candidate",
+    "issue": "Public Safety",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for public safety voters in Arizona.",
+    "districts": [
+      "Legislative District 28",
+      "Legislative District 3"
+    ]
+  },
+  {
+    "id": 119,
+    "name": "Candidate 119",
+    "type": "Candidate",
+    "issue": "Economy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for economy voters in Arizona.",
+    "districts": [
+      "Legislative District 29",
+      "Legislative District 4"
+    ]
+  },
+  {
+    "id": 120,
+    "name": "Initiative 120",
+    "type": "Initiative",
+    "issue": "Water",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit for water voters in Arizona.",
+    "districts": [
+      "Legislative District 30",
+      "Legislative District 5"
+    ]
+  }
+]
