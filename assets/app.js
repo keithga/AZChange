@@ -65,6 +65,12 @@
     });
   };
 
+  const districtMatches = (itemDistrict, userDistrict) => {
+    const item = itemDistrict.toLowerCase();
+    const user = userDistrict.toLowerCase();
+    return user.includes(item) || item.includes(user);
+  };
+
   const createCard = (item) => {
     const article = document.createElement('article');
     article.className = 'card';
@@ -89,7 +95,7 @@
     const selectedTopic = sessionStorage.getItem('selectedTopic');
 
     let matching = data.filter((item) =>
-      item.districts.some((district) => districts.some((d) => d.toLowerCase().includes(district.toLowerCase()) || district.toLowerCase().includes(d.toLowerCase())))
+      item.districts.some((district) => districts.some((d) => districtMatches(district, d)))
     );
 
     if (!matching.length) {
@@ -190,7 +196,7 @@
       try {
         payload = JSON.parse(text);
       } catch (error) {
-        // Keep original text payload.
+        console.warn('District lookup response was not JSON; continuing with text parsing.', error);
       }
 
       const districts = parseDistricts(payload);
