@@ -202,7 +202,7 @@
       try {
         payload = JSON.parse(text);
       } catch (error) {
-        console.warn('District lookup response was not JSON; parseDistricts will inspect raw text for district-like terms.', error);
+        console.warn('District lookup response was not JSON; parseDistricts will process raw text instead of parsed JSON.', error);
       }
 
       const districts = parseDistricts(payload);
@@ -210,14 +210,9 @@
       await renderCards(districts);
       setStatus('Results loaded.');
     } catch (error) {
-      const isPotentialNetworkError = error instanceof TypeError;
       updateDistricts(['Unable to reach district lookup service.']);
       await renderCards([]);
-      setStatus(
-        isPotentialNetworkError
-          ? 'Lookup failed due to network/CORS access limits. Showing generic candidate and initiative cards.'
-          : 'Lookup failed. Showing generic candidate and initiative cards.'
-      );
+      setStatus('Lookup failed. Showing generic candidate and initiative cards.');
     }
   });
 })();
