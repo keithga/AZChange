@@ -13,6 +13,9 @@
   };
 
   const pathSegment = window.location.pathname.split('/').filter(Boolean)[0];
+  const MAX_DISTRICTS = 12;
+  const DEFAULT_CARD_COUNT = 18;
+  const MAX_RENDERED_CARDS = 24;
   if (topicMap[pathSegment]) {
     sessionStorage.setItem('selectedTopic', topicMap[pathSegment]);
   }
@@ -53,7 +56,7 @@
       }
     };
     walk(payload);
-    return Array.from(found).slice(0, 12);
+    return Array.from(found).slice(0, MAX_DISTRICTS);
   };
 
   const updateDistricts = (districts) => {
@@ -102,7 +105,7 @@
     );
 
     if (!matching.length) {
-      matching = data.slice(0, 18);
+      matching = data.slice(0, DEFAULT_CARD_COUNT);
     }
 
     if (selectedTopic && !matching.some((item) => item.type === 'Issue Highlight' && item.issue === selectedTopic)) {
@@ -116,7 +119,7 @@
     }
 
     cardGrid.innerHTML = '';
-    matching.slice(0, 24).forEach((item) => cardGrid.appendChild(createCard(item)));
+    matching.slice(0, MAX_RENDERED_CARDS).forEach((item) => cardGrid.appendChild(createCard(item)));
   };
 
   const fetchSuggestions = async (query) => {
@@ -199,7 +202,7 @@
       try {
         payload = JSON.parse(text);
       } catch (error) {
-        console.warn('District lookup response was not JSON; continuing with text parsing.', error);
+        console.warn('District lookup response was not JSON; attempting to extract districts from raw text.', error);
       }
 
       const districts = parseDistricts(payload);
@@ -207,9 +210,14 @@
       await renderCards(districts);
       setStatus('Results loaded.');
     } catch (error) {
+      const isCorsOrNetworkError = error instanceof TypeError;
       updateDistricts(['Unable to reach district lookup service.']);
       await renderCards([]);
-      setStatus('Lookup failed. Showing generic candidate and initiative cards.');
+      setStatus(
+        isCorsOrNetworkError
+          ? 'Lookup failed due to network/CORS access limits. Showing generic candidate and initiative cards.'
+          : 'Lookup failed. Showing generic candidate and initiative cards.'
+      );
     }
   });
 })();
