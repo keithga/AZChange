@@ -12,10 +12,10 @@
     Water: 'Water'
   };
 
-  const pathSegment = window.location.pathname.split('/').filter(Boolean)[0];
   const MAX_DISTRICTS = 12;
   const DEFAULT_CARD_COUNT = 18;
   const MAX_RENDERED_CARDS = 24;
+  const pathSegment = window.location.pathname.split('/').filter(Boolean)[0];
   if (topicMap[pathSegment]) {
     sessionStorage.setItem('selectedTopic', topicMap[pathSegment]);
   }
@@ -202,7 +202,7 @@
       try {
         payload = JSON.parse(text);
       } catch (error) {
-        console.warn('District lookup response was not JSON; parseDistricts will process raw text instead of parsed JSON.', error);
+        console.warn('District lookup response was not JSON; parseDistricts will receive the raw response text.', error);
       }
 
       const districts = parseDistricts(payload);
