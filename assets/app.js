@@ -66,9 +66,12 @@
   };
 
   const districtMatches = (itemDistrict, userDistrict) => {
-    const item = itemDistrict.toLowerCase();
-    const user = userDistrict.toLowerCase();
-    return user.includes(item) || item.includes(user);
+    const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const item = String(itemDistrict).trim();
+    const user = String(userDistrict).trim();
+    const itemInUser = new RegExp(`\\b${escapeRegex(item)}\\b`, 'i').test(user);
+    const userInItem = new RegExp(`\\b${escapeRegex(user)}\\b`, 'i').test(item);
+    return itemInUser || userInItem;
   };
 
   const createCard = (item) => {
@@ -122,12 +125,12 @@
       return;
     }
 
-    const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&countrycodes=us&q=${encodeURIComponent(query + ', AZ')}`;
+    const url = `https://geocode.maps.co/search?country=US&state=AZ&q=${encodeURIComponent(query)}`;
     const response = await fetch(url, { headers: { Accept: 'application/json' } });
     const results = await response.json();
     suggestionsEl.innerHTML = '';
 
-    results.forEach((result) => {
+    results.slice(0, 5).forEach((result) => {
       const li = document.createElement('li');
       const button = document.createElement('button');
       button.type = 'button';
@@ -160,7 +163,7 @@
       async (position) => {
         const { latitude, longitude } = position.coords;
         try {
-          const reverseUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
+          const reverseUrl = `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`;
           const response = await fetch(reverseUrl, { headers: { Accept: 'application/json' } });
           const data = await response.json();
           input.value = data.display_name || `${latitude}, ${longitude}`;
