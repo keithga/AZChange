@@ -1,0 +1,167 @@
+:root {
+  color-scheme: light;
+  --bg: #f7f8fb;
+  --text: #1e1f22;
+  --card: #ffffff;
+  --border: #d9dce5;
+  --accent: #185abc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.site-header,
+.site-footer {
+  background: #fff;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  border-bottom: 0;
+  margin-top: 2rem;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.topic-grid,
+.card-grid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.topic-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.topic-link,
+.button,
+button {
+  display: inline-block;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.55rem 0.9rem;
+  background: #fff;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.lookup-form {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.address-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+#address-input {
+  flex: 1 1 320px;
+  padding: 0.55rem;
+}
+
+.suggestions {
+  margin: 0.5rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.suggestions li button {
+  width: 100%;
+  text-align: left;
+  border-color: var(--border);
+  color: var(--text);
+  margin-top: 0.35rem;
+}
+
+.status {
+  min-height: 1.5rem;
+  margin: 0.75rem 0;
+}
+
+.district-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: 0.45rem;
+  padding: 0;
+}
+
+.district-list li {
+  background: #e7edf9;
+  border: 1px solid #c9d7f3;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+}
+
+.card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.85rem;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.card .meta {
+  font-size: 0.92rem;
+  color: #4f5563;
+}
+
+.disclaimer {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 700px) {
+  .site-header,
+  .site-footer,
+  .container {
+    padding: 0.8rem;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .lookup-form,
+  .site-footer a,
+  #gps-button,
+  .suggestions {
+    display: none;
+  }
+
+  .card,
+  .district-list li {
+    break-inside: avoid;
+    border-color: #666;
+  }
+}
