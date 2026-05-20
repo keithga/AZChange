@@ -202,7 +202,7 @@
       try {
         payload = JSON.parse(text);
       } catch (error) {
-        console.warn('District lookup response was not JSON; attempting to extract districts from raw text.', error);
+        console.warn('District lookup response was not JSON; parseDistricts will inspect raw text for district-like terms.', error);
       }
 
       const districts = parseDistricts(payload);
@@ -210,11 +210,11 @@
       await renderCards(districts);
       setStatus('Results loaded.');
     } catch (error) {
-      const isCorsOrNetworkError = error instanceof TypeError;
+      const isPotentialNetworkError = error instanceof TypeError;
       updateDistricts(['Unable to reach district lookup service.']);
       await renderCards([]);
       setStatus(
-        isCorsOrNetworkError
+        isPotentialNetworkError
           ? 'Lookup failed due to network/CORS access limits. Showing generic candidate and initiative cards.'
           : 'Lookup failed. Showing generic candidate and initiative cards.'
       );
