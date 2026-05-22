@@ -15,7 +15,7 @@ public class AddressProxy : IHttpHandler
 
     public bool IsReusable
     {
-        get { return false; }
+        get { return true; }
     }
 
     public void ProcessRequest(HttpContext context)
@@ -30,10 +30,6 @@ public class AddressProxy : IHttpHandler
         }
 
         var address = context.Request.Form["address"];
-        if (string.IsNullOrWhiteSpace(address))
-        {
-            address = context.Request["address"];
-        }
 
         if (string.IsNullOrWhiteSpace(address))
         {
@@ -44,7 +40,8 @@ public class AddressProxy : IHttpHandler
 
         Uri upstreamUri;
         if (!Uri.TryCreate(ConfiguredUpstreamUrl, UriKind.Absolute, out upstreamUri) ||
-            !string.Equals(upstreamUri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
+            !string.Equals(upstreamUri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase) ||
+            !string.Equals(upstreamUri.Host, "customsite.com", StringComparison.OrdinalIgnoreCase))
         {
             context.Response.StatusCode = 500;
             context.Response.Write("{\"error\":\"Proxy upstream URL is not configured correctly.\"}");

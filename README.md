@@ -29,3 +29,4 @@ When hosted on IIS with ASP.NET enabled, `/services/AddressProxy.ashx` accepts a
 data with `next=true`.
 
 Set `AddressProxyUpstreamUrl` in `/web.config` for environment-specific upstream targets.
+The handler validates HTTPS and restricts the host to `customsite.com`.
