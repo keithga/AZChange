@@ -12,6 +12,8 @@ public class AddressProxy : IHttpHandler
     private const int RequestTimeoutMilliseconds = 30000;
     private static readonly string ConfiguredUpstreamUrl =
         ConfigurationManager.AppSettings["AddressProxyUpstreamUrl"] ?? "https://customsite.com/testapi/";
+    private static readonly string AllowedUpstreamHost =
+        ConfigurationManager.AppSettings["AddressProxyAllowedHost"] ?? "customsite.com";
 
     public bool IsReusable
     {
@@ -41,7 +43,7 @@ public class AddressProxy : IHttpHandler
         Uri upstreamUri;
         if (!Uri.TryCreate(ConfiguredUpstreamUrl, UriKind.Absolute, out upstreamUri) ||
             !string.Equals(upstreamUri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase) ||
-            !string.Equals(upstreamUri.Host, "customsite.com", StringComparison.OrdinalIgnoreCase))
+            !string.Equals(upstreamUri.Host, AllowedUpstreamHost, StringComparison.OrdinalIgnoreCase))
         {
             context.Response.StatusCode = 500;
             context.Response.Write("{\"error\":\"Proxy upstream URL is not configured correctly.\"}");
@@ -99,7 +101,9 @@ public class AddressProxy : IHttpHandler
             var httpResponse = webException.Response as HttpWebResponse;
             context.Response.StatusCode = httpResponse != null
                 ? (int)httpResponse.StatusCode
-                : (webException.Status == WebExceptionStatus.Timeout ? 504 : 503);
+                : (webException.Status == WebExceptionStatus.Timeout
+                    ? (int)HttpStatusCode.GatewayTimeout
+                    : (int)HttpStatusCode.ServiceUnavailable);
 
             if (httpResponse != null)
             {
