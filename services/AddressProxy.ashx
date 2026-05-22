@@ -39,8 +39,8 @@ public class AddressProxy : IHttpHandler
             return;
         }
 
-        var downstreamBody = "address=" + HttpUtility.UrlEncode(address) + "&next=true";
-        var requestBytes = System.Text.Encoding.UTF8.GetBytes(downstreamBody);
+        var upstreamBody = "address=" + HttpUtility.UrlEncode(address) + "&next=true";
+        var requestBytes = System.Text.Encoding.UTF8.GetBytes(upstreamBody);
 
         try
         {
@@ -67,9 +67,18 @@ public class AddressProxy : IHttpHandler
                 }
 
                 using (var responseStream = upstreamResponse.GetResponseStream())
-                using (var reader = new StreamReader(responseStream))
                 {
-                    context.Response.Write(reader.ReadToEnd());
+                    if (responseStream == null)
+                    {
+                        context.Response.Write(string.Empty);
+                    }
+                    else
+                    {
+                        using (var reader = new StreamReader(responseStream))
+                        {
+                            context.Response.Write(reader.ReadToEnd());
+                        }
+                    }
                 }
             }
         }
@@ -81,9 +90,18 @@ public class AddressProxy : IHttpHandler
             if (httpResponse != null)
             {
                 using (var responseStream = httpResponse.GetResponseStream())
-                using (var reader = new StreamReader(responseStream))
                 {
-                    context.Response.Write(reader.ReadToEnd());
+                    if (responseStream == null)
+                    {
+                        context.Response.Write(string.Empty);
+                    }
+                    else
+                    {
+                        using (var reader = new StreamReader(responseStream))
+                        {
+                            context.Response.Write(reader.ReadToEnd());
+                        }
+                    }
                 }
             }
             else
