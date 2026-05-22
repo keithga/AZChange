@@ -42,9 +42,10 @@ public class AddressProxy : IHttpHandler
         var upstreamBody = "address=" + HttpUtility.UrlEncode(address) + "&next=true";
         var requestBytes = System.Text.Encoding.UTF8.GetBytes(upstreamBody);
 
+        HttpWebRequest upstreamRequest = null;
         try
         {
-            var upstreamRequest = (HttpWebRequest)WebRequest.Create(UpstreamUrl);
+            upstreamRequest = (HttpWebRequest)WebRequest.Create(UpstreamUrl);
             upstreamRequest.Method = "POST";
             upstreamRequest.Timeout = RequestTimeoutMilliseconds;
             upstreamRequest.ReadWriteTimeout = RequestTimeoutMilliseconds;
@@ -85,7 +86,9 @@ public class AddressProxy : IHttpHandler
         catch (WebException webException)
         {
             var httpResponse = webException.Response as HttpWebResponse;
-            context.Response.StatusCode = httpResponse != null ? (int)httpResponse.StatusCode : 502;
+            context.Response.StatusCode = httpResponse != null
+                ? (int)httpResponse.StatusCode
+                : (webException.Status == WebExceptionStatus.Timeout ? 504 : 503);
 
             if (httpResponse != null)
             {
@@ -107,6 +110,18 @@ public class AddressProxy : IHttpHandler
             else
             {
                 context.Response.Write("{\"error\":\"Unable to reach upstream service.\"}");
+            }
+        }
+        catch (Exception)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.Write("{\"error\":\"Unexpected proxy error.\"}");
+        }
+        finally
+        {
+            if (upstreamRequest != null)
+            {
+                upstreamRequest.Abort();
             }
         }
     }
