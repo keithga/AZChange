@@ -27,3 +27,5 @@ Then open `http://localhost:8000`.
 When hosted on IIS with ASP.NET enabled, `/services/AddressProxy.ashx` accepts a POSTed
 `address` value and forwards it to `https://customsite.com/testapi/` as URL-encoded form
 data with `next=true`.
+
+Set `AddressProxyUpstreamUrl` in `/web.config` for environment-specific upstream targets.

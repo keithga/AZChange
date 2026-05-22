@@ -1,6 +1,7 @@
 <%@ WebHandler Language="C#" Class="AddressProxy" %>
 
 using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -8,8 +9,9 @@ using System.Web;
 
 public class AddressProxy : IHttpHandler
 {
-    private const string UpstreamUrl = "https://customsite.com/testapi/";
     private const int RequestTimeoutMilliseconds = 30000;
+    private static readonly string ConfiguredUpstreamUrl =
+        ConfigurationManager.AppSettings["AddressProxyUpstreamUrl"] ?? "https://customsite.com/testapi/";
 
     public bool IsReusable
     {
@@ -40,12 +42,24 @@ public class AddressProxy : IHttpHandler
             return;
         }
 
-        var upstreamBody = "address=" + HttpUtility.UrlEncode(address) + "&next=true";
+        Uri upstreamUri;
+        if (!Uri.TryCreate(ConfiguredUpstreamUrl, UriKind.Absolute, out upstreamUri) ||
+            !string.Equals(upstreamUri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
+        {
+            context.Response.StatusCode = 500;
+            context.Response.Write("{\"error\":\"Proxy upstream URL is not configured correctly.\"}");
+            return;
+        }
+
+        var upstreamForm = HttpUtility.ParseQueryString(string.Empty);
+        upstreamForm["address"] = address;
+        upstreamForm["next"] = "true";
+        var upstreamBody = upstreamForm.ToString();
         var requestBytes = System.Text.Encoding.UTF8.GetBytes(upstreamBody);
 
         try
         {
-            var upstreamRequest = (HttpWebRequest)WebRequest.Create(UpstreamUrl);
+            var upstreamRequest = (HttpWebRequest)WebRequest.Create(upstreamUri);
             upstreamRequest.Method = "POST";
             upstreamRequest.Timeout = RequestTimeoutMilliseconds;
             upstreamRequest.ReadWriteTimeout = RequestTimeoutMilliseconds;
@@ -114,7 +128,11 @@ public class AddressProxy : IHttpHandler
         }
         catch (Exception exception)
         {
-            Trace.TraceError("AddressProxy unexpected error: {0}", exception);
+            Trace.TraceError(
+                "AddressProxy unexpected error: {0}: {1}",
+                exception.GetType().FullName,
+                exception.Message
+            );
             context.Response.StatusCode = 500;
             context.Response.Write("{\"error\":\"Unexpected proxy error.\"}");
         }
