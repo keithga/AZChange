@@ -1,6 +1,7 @@
 <%@ WebHandler Language="C#" Class="AddressProxy" %>
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Web;
@@ -42,10 +43,9 @@ public class AddressProxy : IHttpHandler
         var upstreamBody = "address=" + HttpUtility.UrlEncode(address) + "&next=true";
         var requestBytes = System.Text.Encoding.UTF8.GetBytes(upstreamBody);
 
-        HttpWebRequest upstreamRequest = null;
         try
         {
-            upstreamRequest = (HttpWebRequest)WebRequest.Create(UpstreamUrl);
+            var upstreamRequest = (HttpWebRequest)WebRequest.Create(UpstreamUrl);
             upstreamRequest.Method = "POST";
             upstreamRequest.Timeout = RequestTimeoutMilliseconds;
             upstreamRequest.ReadWriteTimeout = RequestTimeoutMilliseconds;
@@ -112,17 +112,11 @@ public class AddressProxy : IHttpHandler
                 context.Response.Write("{\"error\":\"Unable to reach upstream service.\"}");
             }
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            Trace.TraceError("AddressProxy unexpected error: {0}", exception);
             context.Response.StatusCode = 500;
             context.Response.Write("{\"error\":\"Unexpected proxy error.\"}");
-        }
-        finally
-        {
-            if (upstreamRequest != null)
-            {
-                upstreamRequest.Abort();
-            }
         }
     }
 }
