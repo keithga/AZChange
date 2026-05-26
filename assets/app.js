@@ -189,7 +189,7 @@
     const body = new URLSearchParams({ address }).toString();
 
     try {
-      const response = await fetch('https://www.azcleanelections.gov/Custom/GetLocation', {
+      const response = await fetch('/services/AddressProxy.ashx', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
