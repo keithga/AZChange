@@ -1,15 +1,42 @@
 (function () {
+  const FOOTER_CACHE_KEY = 'sharedFooterMarkup';
+  const fallbackFooterMarkup = `
+<footer class="site-footer">
+  <a href="/address-lookup/">Address Lookup</a>
+  <p class="disclaimer">Placeholder content for voter education only. Verify official information with Arizona election authorities.</p>
+</footer>`;
+
+  const renderFooter = (mount, markup) => {
+    const doc = new DOMParser().parseFromString(markup, 'text/html');
+    if (!doc.body.firstElementChild) {
+      const fallbackDoc = new DOMParser().parseFromString(fallbackFooterMarkup, 'text/html');
+      mount.replaceChildren(...fallbackDoc.body.childNodes);
+      return;
+    }
+    mount.replaceChildren(...doc.body.childNodes);
+  };
+
   const loadSharedFooter = async () => {
     const mount = document.getElementById('site-footer');
     if (!mount) return;
 
     try {
+      const cachedMarkup = sessionStorage.getItem(FOOTER_CACHE_KEY);
+      if (cachedMarkup) {
+        renderFooter(mount, cachedMarkup);
+        return;
+      }
+
       const response = await fetch('/assets/footer.html');
-      if (!response.ok) return;
+      if (!response.ok) {
+        renderFooter(mount, fallbackFooterMarkup);
+        return;
+      }
       const markup = await response.text();
-      const doc = new DOMParser().parseFromString(markup, 'text/html');
-      mount.replaceChildren(...doc.body.childNodes);
+      sessionStorage.setItem(FOOTER_CACHE_KEY, markup);
+      renderFooter(mount, markup);
     } catch (error) {
+      renderFooter(mount, fallbackFooterMarkup);
       console.warn('Unable to load shared footer.', error);
     }
   };
