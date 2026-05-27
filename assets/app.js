@@ -31,6 +31,8 @@
       const cachedMarkup = sessionStorage.getItem(FOOTER_CACHE_KEY);
       if (cachedMarkup && renderFooter(mount, cachedMarkup)) {
         return;
+      } else if (cachedMarkup) {
+        sessionStorage.removeItem(FOOTER_CACHE_KEY);
       }
 
       const controller = new AbortController();
@@ -46,8 +48,9 @@
         return;
       }
       const markup = await response.text();
-      sessionStorage.setItem(FOOTER_CACHE_KEY, markup);
-      if (!renderFooter(mount, markup)) {
+      if (renderFooter(mount, markup)) {
+        sessionStorage.setItem(FOOTER_CACHE_KEY, markup);
+      } else {
         renderFooter(mount, fallbackFooterMarkup);
       }
     } catch (error) {
