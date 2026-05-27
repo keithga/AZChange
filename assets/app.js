@@ -1,4 +1,19 @@
 (function () {
+  const loadSharedFooter = async () => {
+    const mount = document.getElementById('site-footer');
+    if (!mount) return;
+
+    try {
+      const response = await fetch('/assets/footer.html');
+      if (!response.ok) return;
+      mount.innerHTML = await response.text();
+    } catch (error) {
+      console.warn('Unable to load shared footer.', error);
+    }
+  };
+
+  loadSharedFooter();
+
   const topicMap = {
     Transportation: 'Transportation',
     Schools: 'Schools',
