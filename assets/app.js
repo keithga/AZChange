@@ -1,4 +1,70 @@
 (function () {
+  const FOOTER_MOUNT_ID = 'site-footer';
+  const FOOTER_CACHE_KEY = 'sharedFooterMarkup';
+  const FOOTER_FETCH_TIMEOUT_MS = 5000;
+  const fallbackFooterMarkup = `
+<footer class="site-footer">
+  <a href="/address-lookup/">Address Lookup</a>
+  <p class="disclaimer">Placeholder content for voter education only. Verify official information with Arizona election authorities.</p>
+</footer>`;
+
+  const getFooterNodes = (markup) => {
+    const doc = new DOMParser().parseFromString(markup, 'text/html');
+    if (!doc.body.firstElementChild) {
+      return null;
+    }
+    return Array.from(doc.body.childNodes);
+  };
+
+  const renderFooter = (mount, markup) => {
+    const nodes = getFooterNodes(markup);
+    if (!nodes) return false;
+    mount.replaceChildren(...nodes);
+    return true;
+  };
+
+  const loadSharedFooter = async () => {
+    const mount = document.getElementById(FOOTER_MOUNT_ID);
+    if (!mount) return;
+
+    try {
+      const cachedMarkup = sessionStorage.getItem(FOOTER_CACHE_KEY);
+      if (cachedMarkup && renderFooter(mount, cachedMarkup)) {
+        return;
+      } else if (cachedMarkup) {
+        sessionStorage.removeItem(FOOTER_CACHE_KEY);
+      }
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), FOOTER_FETCH_TIMEOUT_MS);
+      let response;
+      try {
+        response = await fetch('/assets/footer.html', { signal: controller.signal });
+      } finally {
+        clearTimeout(timeoutId);
+      }
+      if (!response.ok) {
+        renderFooter(mount, fallbackFooterMarkup);
+        return;
+      }
+      const markup = await response.text();
+      if (renderFooter(mount, markup)) {
+        sessionStorage.setItem(FOOTER_CACHE_KEY, markup);
+      } else {
+        renderFooter(mount, fallbackFooterMarkup);
+      }
+    } catch (error) {
+      renderFooter(mount, fallbackFooterMarkup);
+      console.warn('Unable to load shared footer.', error);
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadSharedFooter, { once: true });
+  } else {
+    loadSharedFooter();
+  }
+
   const topicMap = {
     Transportation: 'Transportation',
     Schools: 'Schools',
