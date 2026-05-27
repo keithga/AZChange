@@ -6,14 +6,19 @@
   <p class="disclaimer">Placeholder content for voter education only. Verify official information with Arizona election authorities.</p>
 </footer>`;
 
-  const renderFooter = (mount, markup) => {
+  const getFooterNodes = (markup) => {
     const doc = new DOMParser().parseFromString(markup, 'text/html');
     if (!doc.body.firstElementChild) {
-      const fallbackDoc = new DOMParser().parseFromString(fallbackFooterMarkup, 'text/html');
-      mount.replaceChildren(...fallbackDoc.body.childNodes);
-      return;
+      return null;
     }
-    mount.replaceChildren(...doc.body.childNodes);
+    return Array.from(doc.body.childNodes);
+  };
+
+  const renderFooter = (mount, markup) => {
+    const nodes = getFooterNodes(markup);
+    if (!nodes) return false;
+    mount.replaceChildren(...nodes);
+    return true;
   };
 
   const loadSharedFooter = async () => {
@@ -22,19 +27,27 @@
 
     try {
       const cachedMarkup = sessionStorage.getItem(FOOTER_CACHE_KEY);
-      if (cachedMarkup) {
-        renderFooter(mount, cachedMarkup);
+      if (cachedMarkup && renderFooter(mount, cachedMarkup)) {
         return;
       }
 
-      const response = await fetch('/assets/footer.html');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      let response;
+      try {
+        response = await fetch('/assets/footer.html', { signal: controller.signal });
+      } finally {
+        clearTimeout(timeoutId);
+      }
       if (!response.ok) {
         renderFooter(mount, fallbackFooterMarkup);
         return;
       }
       const markup = await response.text();
       sessionStorage.setItem(FOOTER_CACHE_KEY, markup);
-      renderFooter(mount, markup);
+      if (!renderFooter(mount, markup)) {
+        renderFooter(mount, fallbackFooterMarkup);
+      }
     } catch (error) {
       renderFooter(mount, fallbackFooterMarkup);
       console.warn('Unable to load shared footer.', error);
