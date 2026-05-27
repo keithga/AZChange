@@ -1,5 +1,7 @@
 (function () {
+  const FOOTER_MOUNT_ID = 'site-footer';
   const FOOTER_CACHE_KEY = 'sharedFooterMarkup';
+  const FOOTER_FETCH_TIMEOUT_MS = 5000;
   const fallbackFooterMarkup = `
 <footer class="site-footer">
   <a href="/address-lookup/">Address Lookup</a>
@@ -22,7 +24,7 @@
   };
 
   const loadSharedFooter = async () => {
-    const mount = document.getElementById('site-footer');
+    const mount = document.getElementById(FOOTER_MOUNT_ID);
     if (!mount) return;
 
     try {
@@ -32,7 +34,7 @@
       }
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const timeoutId = setTimeout(() => controller.abort(), FOOTER_FETCH_TIMEOUT_MS);
       let response;
       try {
         response = await fetch('/assets/footer.html', { signal: controller.signal });
