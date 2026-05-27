@@ -6,13 +6,19 @@
     try {
       const response = await fetch('/assets/footer.html');
       if (!response.ok) return;
-      mount.innerHTML = await response.text();
+      const markup = await response.text();
+      const doc = new DOMParser().parseFromString(markup, 'text/html');
+      mount.replaceChildren(...doc.body.childNodes);
     } catch (error) {
       console.warn('Unable to load shared footer.', error);
     }
   };
 
-  loadSharedFooter();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadSharedFooter, { once: true });
+  } else {
+    loadSharedFooter();
+  }
 
   const topicMap = {
     Transportation: 'Transportation',
