@@ -30,3 +30,17 @@ data with `next=true`.
 
 Set `AddressProxyUpstreamUrl` in `/web.config` for environment-specific upstream targets.
 Set `AddressProxyAllowedHost` to define which HTTPS host is permitted (default `customsite.com`).
+
+## IIS reverse geocode proxy service
+
+Browser JavaScript cannot set the `User-Agent` request header. To support OpenStreetMap
+Nominatim requirements, `/services/ReverseGeocodeProxy.ashx` accepts `lat` and `lon`
+via POST and forwards the request server-side with a configurable `User-Agent` header.
+
+Configure these keys in `/web.config` as needed:
+
+- `ReverseGeocodeUpstreamUrl` (default `https://nominatim.openstreetmap.org/reverse`)
+- `ReverseGeocodeAllowedHost` (default `nominatim.openstreetmap.org`)
+- `ReverseGeocodeUserAgent` (default `AZChange.org/1.0 (admin@AzChange.org)`)
+
+The proxy sends `format=jsonv2`, plus `lat`/`lon`, and returns upstream JSON.

@@ -1,20 +1,24 @@
-<%@ WebHandler Language="C#" Class="AddressProxy" %>
+<%@ WebHandler Language="C#" Class="ReverseGeocodeProxy" %>
 
 using System;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Web;
 
-public class AddressProxy : IHttpHandler
+public class ReverseGeocodeProxy : IHttpHandler
 {
     private const int RequestTimeoutMilliseconds = 30000;
     private const SecurityProtocolType Tls12 = (SecurityProtocolType)3072;
+
     private static readonly string ConfiguredUpstreamUrl =
-        ConfigurationManager.AppSettings["AddressProxyUpstreamUrl"] ?? "https://www.azcleanelections.gov/Custom/GetLocation";
+        ConfigurationManager.AppSettings["ReverseGeocodeUpstreamUrl"] ?? "https://nominatim.openstreetmap.org/reverse";
     private static readonly string AllowedUpstreamHost =
-        ConfigurationManager.AppSettings["AddressProxyAllowedHost"] ?? "www.azcleanelections.gov";
+        ConfigurationManager.AppSettings["ReverseGeocodeAllowedHost"] ?? "nominatim.openstreetmap.org";
+    private static readonly string UpstreamUserAgent =
+        ConfigurationManager.AppSettings["ReverseGeocodeUserAgent"] ?? "AZChange.org/1.0 (admin@AzChange.org)";
 
     public bool IsReusable
     {
@@ -32,56 +36,52 @@ public class AddressProxy : IHttpHandler
             return;
         }
 
-        var address = context.Request.Form["address"];
-
-        if (string.IsNullOrWhiteSpace(address))
+        double latitude;
+        double longitude;
+        if (!TryParseCoordinate(context.Request.Form["lat"], -90.0, 90.0, out latitude) ||
+            !TryParseCoordinate(context.Request.Form["lon"], -180.0, 180.0, out longitude))
         {
             context.Response.StatusCode = 400;
-            context.Response.Write("{\"error\":\"The address parameter is required.\"}");
+            context.Response.Write("{\"error\":\"Valid lat and lon parameters are required.\"}");
             return;
         }
 
-        Uri upstreamUri;
-        if (!Uri.TryCreate(ConfiguredUpstreamUrl, UriKind.Absolute, out upstreamUri) ||
-            !string.Equals(upstreamUri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase) ||
-            !string.Equals(upstreamUri.Host, AllowedUpstreamHost, StringComparison.OrdinalIgnoreCase))
+        Uri baseUri;
+        if (!Uri.TryCreate(ConfiguredUpstreamUrl, UriKind.Absolute, out baseUri) ||
+            !string.Equals(baseUri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase) ||
+            !string.Equals(baseUri.Host, AllowedUpstreamHost, StringComparison.OrdinalIgnoreCase))
         {
             context.Response.StatusCode = 500;
-            context.Response.Write("{\"error\":\"Proxy upstream URL is not configured correctly.\"}");
+            context.Response.Write("{\"error\":\"Reverse geocode upstream URL is not configured correctly.\"}");
             return;
         }
 
-        var upstreamForm = HttpUtility.ParseQueryString(string.Empty);
-        upstreamForm["address"] = address;
-        upstreamForm["next"] = "true";
-        var upstreamBody = upstreamForm.ToString();
-        var requestBytes = System.Text.Encoding.UTF8.GetBytes(upstreamBody);
+        var query = HttpUtility.ParseQueryString(baseUri.Query ?? string.Empty);
+        query["format"] = "jsonv2";
+        query["lat"] = latitude.ToString("G17", CultureInfo.InvariantCulture);
+        query["lon"] = longitude.ToString("G17", CultureInfo.InvariantCulture);
+
+        var uriBuilder = new UriBuilder(baseUri) { Query = query.ToString() };
 
         try
         {
             ServicePointManager.SecurityProtocol |= Tls12;
             ServicePointManager.Expect100Continue = false;
 
-            var upstreamRequest = (HttpWebRequest)WebRequest.Create(upstreamUri);
-            upstreamRequest.Method = "POST";
+            var upstreamRequest = (HttpWebRequest)WebRequest.Create(uriBuilder.Uri);
+            upstreamRequest.Method = "GET";
             upstreamRequest.Timeout = RequestTimeoutMilliseconds;
             upstreamRequest.ReadWriteTimeout = RequestTimeoutMilliseconds;
-            upstreamRequest.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-            upstreamRequest.ContentLength = requestBytes.Length;
-
-            using (var requestStream = upstreamRequest.GetRequestStream())
-            {
-                requestStream.Write(requestBytes, 0, requestBytes.Length);
-            }
+            upstreamRequest.Accept = "application/json";
+            upstreamRequest.UserAgent = UpstreamUserAgent;
 
             using (var upstreamResponse = (HttpWebResponse)upstreamRequest.GetResponse())
             {
                 context.Response.StatusCode = (int)upstreamResponse.StatusCode;
 
-                var responseContentType = upstreamResponse.ContentType;
-                if (!string.IsNullOrWhiteSpace(responseContentType))
+                if (!string.IsNullOrWhiteSpace(upstreamResponse.ContentType))
                 {
-                    context.Response.ContentType = responseContentType;
+                    context.Response.ContentType = upstreamResponse.ContentType;
                 }
 
                 using (var responseStream = upstreamResponse.GetResponseStream())
@@ -128,18 +128,28 @@ public class AddressProxy : IHttpHandler
             }
             else
             {
-                context.Response.Write("{\"error\":\"Unable to reach upstream service.\"}");
+                context.Response.Write("{\"error\":\"Unable to reach reverse geocode service.\"}");
             }
         }
         catch (Exception exception)
         {
             Trace.TraceError(
-                "AddressProxy unexpected error: {0}: {1}",
+                "ReverseGeocodeProxy unexpected error: {0}: {1}",
                 exception.GetType().FullName,
                 exception.Message
             );
             context.Response.StatusCode = 500;
-            context.Response.Write("{\"error\":\"Unexpected proxy error.\"}");
+            context.Response.Write("{\"error\":\"Unexpected reverse geocode proxy error.\"}");
         }
+    }
+
+    private static bool TryParseCoordinate(string value, double min, double max, out double parsed)
+    {
+        if (!double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out parsed))
+        {
+            return false;
+        }
+
+        return parsed >= min && parsed <= max;
     }
 }
