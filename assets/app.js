@@ -1,12 +1,10 @@
 (function () {
+
+  // #region Footer Loading Logic
+
   const FOOTER_MOUNT_ID = 'site-footer';
   const FOOTER_CACHE_KEY = 'sharedFooterMarkup';
   const FOOTER_FETCH_TIMEOUT_MS = 5000;
-  const fallbackFooterMarkup = `
-<footer class="site-footer">
-  <a href="/address-lookup/">Address Lookup</a>
-  <p class="disclaimer">Placeholder content for voter education only. Verify official information with Arizona election authorities.</p>
-</footer>`;
 
   const getFooterNodes = (markup) => {
     const doc = new DOMParser().parseFromString(markup, 'text/html');
@@ -27,36 +25,17 @@
     const mount = document.getElementById(FOOTER_MOUNT_ID);
     if (!mount) return;
 
-    try {
-      const cachedMarkup = sessionStorage.getItem(FOOTER_CACHE_KEY);
-      if (cachedMarkup && renderFooter(mount, cachedMarkup)) {
-        return;
-      } else if (cachedMarkup) {
-        sessionStorage.removeItem(FOOTER_CACHE_KEY);
-      }
+    const assets = mount.getAttribute('path') ?? '../assets';
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), FOOTER_FETCH_TIMEOUT_MS);
-      let response;
-      try {
-        response = await fetch('/assets/footer.html', { signal: controller.signal });
-      } finally {
-        clearTimeout(timeoutId);
-      }
-      if (!response.ok) {
-        renderFooter(mount, fallbackFooterMarkup);
-        return;
-      }
-      const markup = await response.text();
-      if (renderFooter(mount, markup)) {
-        sessionStorage.setItem(FOOTER_CACHE_KEY, markup);
-      } else {
-        renderFooter(mount, fallbackFooterMarkup);
-      }
-    } catch (error) {
-      renderFooter(mount, fallbackFooterMarkup);
-      console.warn('Unable to load shared footer.', error);
-    }
+    const fallbackFooterMarkup = `
+<footer class="site-footer">
+  <a class="topic-link" href="${assets}/../address-lookup/">Address Lookup</a>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p class="disclaimer">Paid for by <a href="https://pimadems.org"  style="text-decoration: none;" >PCDP</a>, Brian Bickel Treasurer. Not authorized by any candidate or candidate's committee.</p>
+</footer>`; 
+
+    renderFooter(mount, fallbackFooterMarkup);
   };
 
   if (document.readyState === 'loading') {
@@ -64,6 +43,12 @@
   } else {
     loadSharedFooter();
   }
+
+  if (!window.location.pathname.endsWith('address-lookup/')) {
+    return;
+  }
+
+  // #endregion
 
   const topicMap = {
     Transportation: 'Transportation',
@@ -78,6 +63,8 @@
     Water: 'Water'
   };
 
+  // #region District Parsing and Card Rendering Logic
+
   const MAX_DISTRICTS = 12;
   const DEFAULT_CARD_COUNT = 18;
   const MAX_RENDERED_CARDS = 24;
@@ -86,19 +73,13 @@
     sessionStorage.setItem('selectedTopic', topicMap[pathSegment]);
   }
 
-  if (!window.location.pathname.startsWith('/address-lookup')) {
-    return;
-  }
-
   const form = document.getElementById('address-form');
   const input = document.getElementById('address-input');
-  const suggestionsEl = document.getElementById('suggestions');
   const gpsButton = document.getElementById('gps-button');
   const statusEl = document.getElementById('lookup-status');
   const districtList = document.getElementById('district-list');
   const cardGrid = document.getElementById('card-grid');
   let candidatesCache = null;
-  let debounceTimer = null;
 
   const setStatus = (message) => {
     statusEl.textContent = message;
@@ -118,6 +99,8 @@
       }
       const text = String(value);
       if (/district|precinct|ward|congress|legislative/i.test(text)) {
+        console.log('District-like text found:', text);
+
         found.add(text.trim());
       }
     };
@@ -157,7 +140,7 @@
 
   const loadCandidates = async () => {
     if (candidatesCache) return candidatesCache;
-    const response = await fetch('/data/candidates.json');
+    const response = await fetch('../data/candidates.json');
     candidatesCache = await response.json();
     return candidatesCache;
   };
@@ -188,39 +171,67 @@
     matching.slice(0, MAX_RENDERED_CARDS).forEach((item) => cardGrid.appendChild(createCard(item)));
   };
 
-  const fetchSuggestions = async (query) => {
-    if (!query || query.length < 4) {
-      suggestionsEl.innerHTML = '';
-      return;
+  // #endregion
+
+  // #region Address auto-fill and status update logic
+
+    const getGoogleMapsApiKey = () => {
+    const mapsScript = Array.from(document.scripts).find((script) =>
+      script.src && script.src.includes('maps.googleapis.com/maps/api/js')
+    );
+
+    if (!mapsScript) return '';
+
+    try {
+      const url = new URL(mapsScript.src);
+      return url.searchParams.get('key') || '';
+    } catch (error) {
+      return '';
     }
-
-    const url = `https://geocode.maps.co/search?country=US&state=AZ&q=${encodeURIComponent(query)}`;
-    const response = await fetch(url, { headers: { Accept: 'application/json' } });
-    const results = await response.json();
-    suggestionsEl.innerHTML = '';
-
-    results.slice(0, 5).forEach((result) => {
-      const li = document.createElement('li');
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.textContent = result.display_name;
-      button.addEventListener('click', () => {
-        input.value = result.display_name;
-        suggestionsEl.innerHTML = '';
-      });
-      li.appendChild(button);
-      suggestionsEl.appendChild(li);
-    });
   };
 
   input.addEventListener('input', () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-      fetchSuggestions(input.value).catch(() => {
-        suggestionsEl.innerHTML = '';
-      });
-    }, 300);
+    const typedAddress = input.value.trim();
+    if (!typedAddress) {
+      setStatus('');
+      return;
+    }
+    setStatus('Address entered. Select "Find My Districts" to run lookup.');
   });
+
+  // #endregion
+
+  // #region Address Lookup and Geolocation Logic
+
+  const submitAddressLookup = async () => {
+    const address = input.value.trim();
+    if (!address) return;
+
+    setStatus('Looking up district information...');
+    const body = new URLSearchParams({ address }).toString();
+
+    try {
+      const response = await fetch('../services/AddressProxy.ashx', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body
+      });
+
+      const payload = await response.json();
+      console.log('District lookup payload:', payload);
+
+      const districts = parseDistricts(payload);
+      updateDistricts(districts.length ? districts : ['District information unavailable from response.']);
+      await renderCards(districts);
+      setStatus('Results loaded.');
+    } catch (error) {
+      updateDistricts(['Unable to reach district lookup service.']);
+      await renderCards([]);
+      setStatus('Lookup failed. Showing generic candidate and initiative cards.');
+    }
+  };
 
   gpsButton.addEventListener('click', () => {
     if (!navigator.geolocation) {
@@ -232,12 +243,29 @@
       async (position) => {
         const { latitude, longitude } = position.coords;
         try {
-          const reverseUrl = `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`;
-          const response = await fetch(reverseUrl, { headers: { Accept: 'application/json' } });
+          const body = new URLSearchParams({
+            lat: String(latitude),
+            lon: String(longitude)
+          }).toString();
+          const response = await fetch('../services/ReverseGeocodeProxy.ashx', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body
+          });
+
+          if (!response.ok) {
+            throw new Error(`Reverse geocode failed with status ${response.status}`);
+          }
+
           const data = await response.json();
+          console.info('Reverse geocoding result:', data);
           input.value = data.display_name || `${latitude}, ${longitude}`;
-          setStatus('Location found.');
+          setStatus('Location found. Looking up district information...');
+          form.requestSubmit();
         } catch (error) {
+          console.info('Reverse geocoding failed, falling back to coordinates. Error:', error);
           input.value = `${latitude}, ${longitude}`;
           setStatus('Location captured; address details unavailable.');
         }
@@ -246,39 +274,15 @@
     );
   });
 
+  // #endregion
+
+  // #region Form submission and card rendering
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const address = input.value.trim();
-    if (!address) return;
-
-    setStatus('Looking up district information...');
-    const body = new URLSearchParams({ address }).toString();
-
-    try {
-      const response = await fetch('/services/AddressProxy.ashx', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        },
-        body
-      });
-
-      const text = await response.text();
-      let payload = text;
-      try {
-        payload = JSON.parse(text);
-      } catch (error) {
-        console.warn('District lookup response was not JSON; parseDistricts will receive the raw response text.', error);
-      }
-
-      const districts = parseDistricts(payload);
-      updateDistricts(districts.length ? districts : ['District information unavailable from response.']);
-      await renderCards(districts);
-      setStatus('Results loaded.');
-    } catch (error) {
-      updateDistricts(['Unable to reach district lookup service.']);
-      await renderCards([]);
-      setStatus('Lookup failed. Showing generic candidate and initiative cards.');
-    }
+    await submitAddressLookup();
   });
+
+  // #endregion
+
 })();
