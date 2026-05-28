@@ -20,7 +20,7 @@ Then open `http://localhost:8000`.
   - Address entry + realtime suggestions
   - Browser GPS lookup
   - District lookup API POST to local IIS proxy at `/services/AddressProxy.ashx`
-  - Candidate/initiative cards from `/data/candidates.json`
+  - Candidate/Proposition cards from `/data/candidates.json`
 
 ## IIS address proxy service
 

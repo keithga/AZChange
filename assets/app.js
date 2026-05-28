@@ -86,6 +86,35 @@
   };
 
   const parseDistricts = (payload) => {
+    const loc = payload && typeof payload === 'object' && payload.loc && typeof payload.loc === 'object'
+      ? payload.loc
+      : null;
+
+    if (loc) {
+      const preferredFields = [
+        ['CongressDist', 'Congressional District'],
+        ['LegDist', 'Legislative District'],
+        ['County', 'County'],
+        ['CountyDist', 'County District'],
+        ['City', 'City'],
+        ['CityDist', 'City District'],
+        ['Packed', 'Coded District']
+      ];
+
+      const formatted = preferredFields
+        .filter(([field]) => loc[field] !== undefined && loc[field] !== null && String(loc[field]).trim() !== '')
+        .map(([field, label]) => `${label}: ${String(loc[field]).trim()}`);
+
+      if (!formatted.some((entry) => /^State\s*:/i.test(entry))) {
+        formatted.unshift('State: Arizona');
+      }
+
+      if (formatted.length) {
+        return formatted.slice(0, MAX_DISTRICTS);
+      }
+    }
+
+    // Fallback for unexpected response shapes.
     const found = new Set();
     const walk = (value) => {
       if (value == null) return;
@@ -97,13 +126,12 @@
         Object.values(value).forEach(walk);
         return;
       }
-      const text = String(value);
-      if (/district|precinct|ward|congress|legislative/i.test(text)) {
-        console.log('District-like text found:', text);
-
-        found.add(text.trim());
+      const text = String(value).trim();
+      if (text) {
+        found.add(text);
       }
     };
+
     walk(payload);
     return Array.from(found).slice(0, MAX_DISTRICTS);
   };
@@ -229,7 +257,7 @@
     } catch (error) {
       updateDistricts(['Unable to reach district lookup service.']);
       await renderCards([]);
-      setStatus('Lookup failed. Showing generic candidate and initiative cards.');
+      setStatus('Lookup failed. Showing generic candidate and proposition cards.');
     }
   };
 
