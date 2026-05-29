@@ -44,34 +44,23 @@
     loadSharedFooter();
   }
 
+  // #endregion
+
+  // #region Load topic from URL and store in session for use in card rendering. Only run lookup logic on address-lookup page.
+
+  if ( document.body.hasAttribute('data-topic') ) {
+    const topic = document.body.getAttribute('data-topic');
+    console.log("User Selected Topic:", topic);
+    sessionStorage.setItem('selectedTopic', topic );
+  }
+
   if (!window.location.pathname.endsWith('address-lookup/')) {
     return;
   }
 
   // #endregion
 
-  const topicMap = {
-    Transportation: 'Transportation',
-    Schools: 'Schools',
-    Parks: 'Parks',
-    Technology: 'Technology',
-    Healthcare: 'Healthcare',
-    Housing: 'Housing',
-    Environment: 'Environment',
-    PublicSafety: 'Public Safety',
-    Economy: 'Economy',
-    Water: 'Water'
-  };
-
-  // #region District Parsing and Card Rendering Logic
-
-  const MAX_DISTRICTS = 12;
-  const DEFAULT_CARD_COUNT = 18;
-  const MAX_RENDERED_CARDS = 24;
-  const pathSegment = window.location.pathname.split('/').filter(Boolean)[0];
-  if (topicMap[pathSegment]) {
-    sessionStorage.setItem('selectedTopic', topicMap[pathSegment]);
-  }
+  // #region UI Element References
 
   const form = document.getElementById('address-form');
   const input = document.getElementById('address-input');
@@ -79,10 +68,106 @@
   const statusEl = document.getElementById('lookup-status');
   const districtList = document.getElementById('district-list');
   const cardGrid = document.getElementById('card-grid');
-  let candidatesCache = null;
 
   const setStatus = (message) => {
     statusEl.textContent = message;
+  };
+
+  // #endregion 
+
+  // #region District Parsing and Card Rendering Logic
+
+  const MAX_DISTRICTS = 12;
+  const DEFAULT_CARD_COUNT = 18;
+ 
+  let candidatesCache = null;
+
+  const escapeHtml = (value) => String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+  const normalizeTopicKey = (value) => String(value ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '');
+
+  const TOPIC_ALIASES = {
+    schools: 'education',
+    publicsafety: 'safety'
+  };
+
+  const getTopicSearchKeys = (selectedTopic) => {
+    const normalized = normalizeTopicKey(selectedTopic);
+    if (!normalized) {
+      return [];
+    }
+
+    const alias = TOPIC_ALIASES[normalized];
+    return alias && alias !== normalized ? [normalized, alias] : [normalized];
+  };
+
+  const getIssueDescription = (issues, selectedTopic, selectedOnly = false) => {
+    if (!issues || typeof issues !== 'object') {
+      return '';
+    }
+
+    const searchKeys = getTopicSearchKeys(selectedTopic);
+    if (searchKeys.length) {
+      const topicEntry = Object.entries(issues).find(([key]) => searchKeys.includes(normalizeTopicKey(key)));
+      if (topicEntry && String(topicEntry[1] ?? '').trim()) {
+        return String(topicEntry[1]).trim();
+      }
+    }
+
+    if (selectedOnly) {
+      return '';
+    }
+
+    const firstIssue = Object.values(issues).find((value) => String(value ?? '').trim());
+    return firstIssue ? String(firstIssue).trim() : '';
+  };
+
+  const normalizeCandidate = (item, selectedTopic) => {
+    const rawDistricts = Array.isArray(item?.districts)
+      ? item.districts
+      : item?.District
+        ? [item.District]
+        : item?.district
+          ? [item.district]
+          : [];
+
+    const districts = rawDistricts
+      .map((district) => String(district ?? '').trim())
+      .filter(Boolean);
+
+    const issueContainer = item?.Issues && typeof item.Issues === 'object'
+      ? item.Issues
+      : item?.issues && typeof item.issues === 'object'
+        ? item.issues
+        : null;
+
+    const topicIssueSummary = getIssueDescription(issueContainer, selectedTopic, true);
+    const issueSummary = getIssueDescription(issueContainer, selectedTopic);
+    const issueLabel = selectedTopic
+      || (issueContainer && Object.keys(issueContainer)[0])
+      || item?.issue
+      || 'Candidate';
+
+    const baseDescription = String(item?.description ?? item?.Description ?? '').trim();
+
+    return {
+      name: String(item?.Name ?? item?.name ?? 'Unknown Candidate').trim(),
+      type: String(item?.Party ?? item?.type ?? 'Candidate').trim() || 'Candidate',
+      issue: String(item?.Office ?? item?.issue ?? issueLabel).trim() || issueLabel,
+      description: baseDescription || issueSummary || 'Candidate information is available for this office.',
+      topicDescription: topicIssueSummary,
+      districts,
+      bioUrl: item?.Bio ? String(item.Bio).trim() : '',
+      imageUrl: item?.picture ? String(item.picture).trim() : ''
+    };
   };
 
   const parseDistricts = (payload) => {
@@ -93,6 +178,7 @@
     if (loc) {
       const preferredFields = [
         ['CongressDist', 'Congressional District'],
+        ['State', 'State'],
         ['LegDist', 'Legislative District'],
         ['County', 'County'],
         ['CountyDist', 'County District'],
@@ -146,22 +232,84 @@
   };
 
   const districtMatches = (itemDistrict, userDistrict) => {
-    const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const item = String(itemDistrict).trim();
-    const user = String(userDistrict).trim();
-    const itemInUser = new RegExp(`\\b${escapeRegex(item)}\\b`, 'i').test(user);
-    const userInItem = new RegExp(`\\b${escapeRegex(user)}\\b`, 'i').test(item);
-    return itemInUser || userInItem;
+    const normalizeDistrictText = (value) => String(value)
+      .toLowerCase()
+      .replace(/congressional/g, 'congress')
+      .replace(/legislative/g, 'leg')
+      .replace(/state\s*dist(rict)?/g, 'leg district')
+      .replace(/county\s*dist(rict)?/g, 'county district')
+      .replace(/city\s*dist(rict)?/g, 'city district')
+      .replace(/congress\s*dist(rict)?/g, 'congress district')
+      .replace(/leg\s*dist(rict)?/g, 'leg district')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
+
+    const item = normalizeDistrictText(itemDistrict);
+    const user = normalizeDistrictText(userDistrict);
+
+    if (!item || !user) return false;
+    if (item === user || item.includes(user) || user.includes(item)) {
+      return true;
+    }
+
+    const itemNumMatch = item.match(/\b(\d+)\b/);
+    const userNumMatch = user.match(/\b(\d+)\b/);
+    if (!itemNumMatch || !userNumMatch || itemNumMatch[1] !== userNumMatch[1]) {
+      return false;
+    } 
+
+    const itemType = item.includes('leg district')
+      ? 'leg district'
+      : item.includes('congress district')
+        ? 'congress district'
+        : item.includes('county district')
+          ? 'county district'
+          : item.includes('city district')
+            ? 'city district'
+            : '';
+
+    const userType = user.includes('leg district')
+      ? 'leg district'
+      : user.includes('congress district')
+        ? 'congress district'
+        : user.includes('county district')
+          ? 'county district'
+          : user.includes('city district')
+            ? 'city district'
+            : '';
+
+    // If both specify district types, require matching type to avoid false positives.
+    if (itemType && userType && itemType !== userType) {
+      return false;
+    }
+
+    return true;
   };
 
   const createCard = (item) => {
     const article = document.createElement('article');
     article.className = 'card';
+
+    const safeName = escapeHtml(item.name);
+    const safeType = escapeHtml(item.type);
+    const safeIssue = escapeHtml(item.issue);
+    const safeDescription = escapeHtml(item.description);
+    const safeDistricts = escapeHtml(item.districts.join(', ') || 'All Districts');
+    const safeTopicDescription = escapeHtml(item.topicDescription || '');
+    const bioMarkup = item.bioUrl
+      ? `<p><a href="${escapeHtml(item.bioUrl)}" target="_blank" rel="noopener noreferrer">View candidate details</a></p>`
+      : '';
+    const topicMarkup = safeTopicDescription
+      ? `<p><strong>Topic match:</strong> ${safeTopicDescription}</p>`
+      : '';
+
     article.innerHTML = `
-      <h3>${item.name}</h3>
-      <p class="meta">${item.type} • ${item.issue}</p>
-      <p>${item.description}</p>
-      <p class="meta">Districts: ${item.districts.join(', ')}</p>
+      <h3>${safeName}</h3>
+      <p class="meta">${safeType} • ${safeIssue}</p>
+      <p>${safeDescription}</p>
+      ${topicMarkup}
+      <p class="meta">Districts: ${safeDistricts}</p>
+      ${bioMarkup}
     `;
     return article;
   };
@@ -169,34 +317,29 @@
   const loadCandidates = async () => {
     if (candidatesCache) return candidatesCache;
     const response = await fetch('../data/candidates.json');
-    candidatesCache = await response.json();
+    const payload = await response.json();
+    candidatesCache = Array.isArray(payload)
+      ? payload.filter((item) => item && typeof item === 'object' && (item.Name || item.name || item.Office || item.issue || item.District || item.district || item.districts))
+      : [];
     return candidatesCache;
   };
 
   const renderCards = async (districts) => {
     const data = await loadCandidates();
-    const selectedTopic = sessionStorage.getItem('selectedTopic');
+    const selectedTopic = sessionStorage.getItem('selectedTopic') || '';
 
-    let matching = data.filter((item) =>
+    const normalizedCandidates = data.map((item) => normalizeCandidate(item, selectedTopic));
+
+    let matching = normalizedCandidates.filter((item) =>
       item.districts.some((district) => districts.some((d) => districtMatches(district, d)))
     );
 
     if (!matching.length) {
-      matching = data.slice(0, DEFAULT_CARD_COUNT);
-    }
-
-    if (selectedTopic && !matching.some((item) => item.type === 'Issue Highlight' && item.issue === selectedTopic)) {
-      matching.unshift({
-        name: `${selectedTopic} Focus`,
-        type: 'Issue Highlight',
-        issue: selectedTopic,
-        description: `This card was added because your session started from the ${selectedTopic} topic page.`,
-        districts: ['All Districts']
-      });
+      matching = normalizedCandidates.slice(0, DEFAULT_CARD_COUNT);
     }
 
     cardGrid.innerHTML = '';
-    matching.slice(0, MAX_RENDERED_CARDS).forEach((item) => cardGrid.appendChild(createCard(item)));
+    matching.forEach((item) => cardGrid.appendChild(createCard(item)));
   };
 
   // #endregion
