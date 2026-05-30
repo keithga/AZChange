@@ -11,7 +11,7 @@
 <body>
   <header class="site-header">
     <h1>Address Lookup</h1>
-    <p>Enter your address or use your location to find your districts and voter cards.</p>
+    <p>Enter your address or use your location to find your districts and candidates.</p>
   </header>
 
   <main class="container">
@@ -34,7 +34,19 @@
 
     <section>
       <h2>Candidates & Propositions</h2>
+      <button id="load-cards-button" class="button">Save this List</button> 
+      <button id="email-cards-button" class="button">E-Mail me this list</button> 
+      <p>&nbsp;</p>
       <div id="card-grid" class="card-grid"></div>
+    </section>
+
+    <section>
+      <h2>Resources</h2>
+      <ul class="resources-list">
+        <li><a href="https://recorder.maricopa.gov/voterinfo/">Maricopa County Recorder's Voter Information</a></li>
+        <li><a href="https://recorder.pima.gov/voterinfo/">Pima County Recorder's Voter Information</a></li>
+        <li><a href="https://www.azsos.gov/elections/voting-election/voter-information">Arizona Secretary of State Voter Information</a></li>
+      </ul>
     </section>
   </main>
 

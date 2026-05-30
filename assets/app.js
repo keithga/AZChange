@@ -29,11 +29,14 @@
 
     const fallbackFooterMarkup = `
 <footer class="site-footer">
+    <h2>Candidates and Platforms</h2>
+    <p>Which candidates are ready to tackle the issues you care about?</p>
   <a class="topic-link" href="${assets}/../address-lookup/">Address Lookup</a>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
-  <p class="disclaimer">Paid for by <a href="https://pimadems.org"  style="text-decoration: none;" >PCDP</a>, Brian Bickel Treasurer. Not authorized by any candidate or candidate's committee.</p>
-</footer>`; 
+</footer>
+<p>&nbsp;</p>
+<p class="disclaimer">A voter outreach initiative of <a href="https://pimadems.org" style="text-decoration: none; color: inherit; font-weight: inherit;" >PCDP</a>, Brian Bickel Treasurer. Not authorized by any candidate or candidate's committee.</p>
+<p>Media Resources Link <a href="${assets}/../media-resources/">here</a></p>
+`;
 
     renderFooter(mount, fallbackFooterMarkup);
   };
