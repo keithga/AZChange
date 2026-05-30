@@ -1,67 +1,5 @@
 (function () {
 
-  // #region Footer Loading Logic
-
-  const FOOTER_MOUNT_ID = 'site-footer';
-  const FOOTER_CACHE_KEY = 'sharedFooterMarkup';
-  const FOOTER_FETCH_TIMEOUT_MS = 5000;
-
-  const getFooterNodes = (markup) => {
-    const doc = new DOMParser().parseFromString(markup, 'text/html');
-    if (!doc.body.firstElementChild) {
-      return null;
-    }
-    return Array.from(doc.body.childNodes);
-  };
-
-  const renderFooter = (mount, markup) => {
-    const nodes = getFooterNodes(markup);
-    if (!nodes) return false;
-    mount.replaceChildren(...nodes);
-    return true;
-  };
-
-  const loadSharedFooter = async () => {
-    const mount = document.getElementById(FOOTER_MOUNT_ID);
-    if (!mount) return;
-
-    const assets = mount.getAttribute('path') ?? '../assets';
-
-    const fallbackFooterMarkup = `
-<footer class="site-footer">
-    <h2>Candidates and Platforms</h2>
-    <p>Which candidates are ready to tackle the issues you care about?</p>
-  <a class="topic-link" href="${assets}/../address-lookup/">Address Lookup</a>
-</footer>
-<p>&nbsp;</p>
-<p class="disclaimer">A voter outreach initiative of <a href="https://pimadems.org" style="text-decoration: none; color: inherit; font-weight: inherit;" >PCDP</a>, Brian Bickel Treasurer. Not authorized by any candidate or candidate's committee.</p>
-<p>Media Resources Link <a href="${assets}/../media-resources/">here</a></p>
-`;
-
-    renderFooter(mount, fallbackFooterMarkup);
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadSharedFooter, { once: true });
-  } else {
-    loadSharedFooter();
-  }
-
-  // #endregion
-
-  // #region Load topic from URL and store in session for use in card rendering. Only run lookup logic on address-lookup page.
-
-  if ( document.body.hasAttribute('data-topic') ) {
-    const topic = document.body.getAttribute('data-topic');
-    console.log("User Selected Topic:", topic);
-    sessionStorage.setItem('selectedTopic', topic );
-  }
-
-  if (!window.location.pathname.endsWith('address-lookup/')) {
-    return;
-  }
-
-  // #endregion
 
   // #region UI Element References
 
@@ -370,8 +308,23 @@
       setStatus('');
       return;
     }
-    setStatus('Address entered. Select "Find My Districts" to run lookup.');
+    setStatus('Address entered. Select a suggestion to search automatically or choose "Find My Districts".');
   });
+
+  const submitOnAutocompleteSelection = () => {
+    // The web component updates its value asynchronously after selection.
+    queueMicrotask(() => {
+      const selectedAddress = input.value.trim();
+      if (!selectedAddress) return;
+
+      setStatus('Address selected. Looking up district information...');
+      form.requestSubmit();
+    });
+  };
+
+  // Support current and legacy Google Places web-component events.
+  input.addEventListener('gmp-select', submitOnAutocompleteSelection);
+  input.addEventListener('gmp-placeselect', submitOnAutocompleteSelection);
 
   // #endregion
 
@@ -407,7 +360,7 @@
     }
   };
 
-  gpsButton.addEventListener('click', () => {
+  const startGeolocationLookup = () => {
     if (!navigator.geolocation) {
       setStatus('Geolocation is not supported by this browser.');
       return;
@@ -446,7 +399,9 @@
       },
       () => setStatus('Unable to access location.')
     );
-  });
+  };
+
+  gpsButton.addEventListener('click', startGeolocationLookup);
 
   // #endregion
 
@@ -456,6 +411,10 @@
     event.preventDefault();
     await submitAddressLookup();
   });
+
+  if (navigator.geolocation) {
+    startGeolocationLookup();
+  }
 
   // #endregion
 
